@@ -8,42 +8,50 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- 2. ŞIK TASARIM (CSS) ---
+# --- 2. GÖRÜNÜM AYARLARI (DARK MODE DÜZELTME) ---
 st.markdown("""
 <style>
-    /* Genel Arka Plan */
-    .stApp {
-        background-color: #f0f4f8; 
+    /* 1. ARKA PLANI ZORLA AÇIK RENK YAP */
+    [data-testid="stAppViewContainer"] {
+        background-color: #f4f6f9; /* Çok açık gri-mavi */
     }
     
-    /* Sohbet Baloncukları */
+    /* 2. TÜM YAZILARI ZORLA KOYU RENK YAP (Dark Mode engelleme) */
+    h1, h2, h3, h4, h5, h6, p, li, div {
+        color: #1f2937 !important; /* Koyu Gri/Siyah */
+    }
+    
+    /* 3. SOHBET BALONCUKLARI */
     .stChatMessage {
-        background-color: white;
-        border-radius: 20px;
+        background-color: #ffffff !important; /* Baloncuk içi beyaz */
+        border-radius: 15px;
         padding: 15px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        border: 1px solid #e1e4e8;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        border: 1px solid #e5e7eb;
     }
     
-    /* Kullanıcı Mesajı İkonu */
-    .stChatMessage[data-testid="user"] {
-        background-color: #e3f2fd;
+    /* 4. GİRİŞ KUTUSU (INPUT) DÜZELTMESİ */
+    .stTextInput input {
+        color: #000000 !important; /* Yazılan yazı siyah olsun */
+        background-color: #ffffff !important; /* Kutu içi beyaz olsun */
+    }
+    /* Placeholder (ipucu yazısı) rengi */
+    ::placeholder {
+        color: #6b7280 !important;
+        opacity: 1;
     }
 
-    /* Başlık Stili */
+    /* 5. BAŞLIK RENGİ */
     h1 {
-        color: #1a237e;
-        font-family: 'Helvetica', sans-serif;
+        color: #1e3a8a !important; /* Çukurova Mavisi */
     }
     
-    /* Giriş Kutusu */
-    .stTextInput > div > div > input {
-        border-radius: 25px;
-        border: 2px solid #cbd5e0;
-        padding: 10px 15px;
+    /* 6. SIDEBAR (Sol Menü) */
+    [data-testid="stSidebar"] {
+        background-color: #ffffff;
     }
-    .stTextInput > div > div > input:focus {
-        border-color: #1a237e;
+    [data-testid="stSidebar"] * {
+        color: #1f2937 !important; /* Sidebar yazıları siyah */
     }
 </style>
 """, unsafe_allow_html=True)
@@ -122,6 +130,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Merhaba! Ben PDR Asistanıyım. Sınav kaygısı, kariyer planlama veya psikoloji kuramları hakkında konuşabiliriz."}]
 
 for message in st.session_state.messages:
+    # İkon seçimi
     icon = "🧑‍🎓" if message["role"] == "user" else "🧠"
     with st.chat_message(message["role"], avatar=icon):
         st.markdown(message["content"])
